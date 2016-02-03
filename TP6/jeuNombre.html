@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Jeu Nombre Inconnu JS</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link href="css/stylesTp6.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jeu.js"></script>
+        <script language="JavaScript">
+			function submitonEnter(evt){
+				var charCode = (evt.which) ? evt.which : event.keyCode 
+				if(charCode == "13"){
+					essai();
+				}
+			}
+		</script>
+     
+    </head>
+    <body onload="randNbr()">
+        <fieldset>
+            <legend><h1>Nombre Inconnu</h1></legend>
+        <div>
+			<p>Trouvez en <b id='cpt'>10</b> tentatives au plus
+			un nombre inconnu compris en 0 et 100.			
+			</p>
+			<span id="prop">Votre Proposition <input type="text" id="op" name="operande" value="0" size="3" onKeyDown="javascript:return submitonEnter(event);"/>
+			<button onclick="essai()">proposer</button></span>
+			<br>
+			<span id="resultat"></span>
+
+        </div>
+        </fieldset>
+			<button onclick="redir()">recommencer</button>
+			<button onclick="abandon()">abandonner</button>
+    </body>
+</html>

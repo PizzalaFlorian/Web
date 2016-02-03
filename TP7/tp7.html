@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <title>Introduction aux technologies du Web : TP n°7</title>
+  <link rel="stylesheet" type="text/css"  href="../../Styles/stylesTps.css" media="screen"/>
+  <link rel="stylesheet" type="text/css"  href="../../Styles/stylesTpsPrint.css" media="print"/>
+  <meta charset="utf-8">
+  <style>
+    .todo {
+	  background-color: #FFF5A8;
+	  border-style: solid;
+	  border-width: 1px; 
+	}
+	.todo > li {
+	  margin-top: 5px;
+	  margin-bottom: 5px; 
+	}
+	.todo {
+	  padding: 5px; 
+	}
+	section p {
+	  text-align:justify; 
+	}
+	figure {
+	  text-align:center;
+    }
+    #wrapper {
+      width:1000px;
+	}
+	.pre {
+	  background-color:#FFF5A8;
+      border:2px solid #00000;
+      padding:10px;
+      overflow:auto
+      margin:7px;
+    }
+    table, th, td {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <div id="wrapper">
+  <header>
+    <hgroup>
+	  <h3>Introduction aux technologies du Web</h3>
+	  <h1 class="titreTP">TP n°7 : A la découverte de JavaScript</h1>
+	  <h3>Auteur: Michel Martin</h3>
+    </hgroup>
+  </header>
+  <section>
+    <h2>Première Partie : un QCM interactif</h2>
+    <p>
+      Dans cette première partie du TP, vous allez mettre en place un QCM interactif en partant d'un modèle HTML que je vais vous fournir. En utilisant des instructions JavaScript, vous devrez transformer ce modèle de base (Fig. 1) pour obtenir quelque chose ressemblant à Fig. 2.<br />
+      <figure>
+        <img src="modelebase.png" alt="modelebase.png" width="75%"/>
+	    <figcaption>Fig. 1 : Modèle HTML de départ.</figcaption><br />
+	  </figure>
+      <figure>
+        <img src="qcm.png" alt="qcm.png"/>
+	    <figcaption>Fig. 2 : Voilà à quoi devra ressembler le QCM.</figcaption><br />
+	  </figure>
+	  Pour arriver à ce résultat, vous devrez :
+      <ol>
+	    <li>dissimuler les réponses aux questions ;</li>
+	    <li>mettre en forme les éléments affichés sur l'écran ;</li>
+	    <li>réagir au survol du lien « Tester les réponses » en affichant, pour chaque question :
+	      <ol>
+	      	<li>l'icône <code>bon.png</code> si la réponse est bonne ou l'icône <code>mauvais.png</code> si la réponse est mauvaise.</li>
+	      	<li>le texte explicatif en vert si la réponse est bonne ou en rouge si elle est mauvaise.</li>
+	      </ol></li>
+	  </ol>
+	</p>
+	<p>Normalement, seule la troisième étape devrait vous poser un problème. 
+	<p>Voici le code HTML de départ :</p>
+	<pre class="pre">
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;fr&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8"&gt;
+  &lt;title&gt;Questionnaire interactif avec JavaScript&lt;/title&gt;
+  &lt;script&gt;
+    // Insérez le code JavaScript ici
+  &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;form&gt;
+    &lt;a href=&quot;&quot;&gt;Tester les réponses&lt;/a&gt;
+    &lt;div class=&quot;question&quot;&gt;
+      &lt;div class=&quot;texte&quot;&gt;
+        &lt;h2&gt;Question 1&lt;/h2&gt;
+        Le code JavaScript s'exécute :&lt;br /&gt;&lt;br /&gt;
+        &lt;input type=&quot;radio&quot; id=&quot;r1&quot; name=&quot;q1&quot;&gt;Dans le navigateur&lt;br /&gt;
+        &lt;input type=&quot;radio&quot; id=&quot;r2&quot; name=&quot;q1&quot;&gt;Sur le serveur où est stocké le code&lt;br /&gt;
+        &lt;input type=&quot;radio&quot; id=&quot;r3&quot; name=&quot;q1&quot;&gt;Tantôt dans le navigateur, tantôt sur le serveur&lt;br /&gt;&lt;br /&gt;
+        &lt;span class=&quot;reponse&quot; id=&quot;reponse1&quot;&gt;Le code JavaScript s'exécute toujours sur les clients (ordinateurs, tablettes et 
+          téléphones) qui font référence à ce code via une page HTML.&lt;/span&gt;
+      &lt;/div&gt;  
+      &lt;img id=&quot;img1&quot; src=&quot;question.png&quot; width=&quot;45px&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;question&quot;&gt;
+      &lt;div class=&quot;texte&quot;&gt;
+        &lt;h2&gt;Question 2&lt;/h2&gt;
+        Lorsque l'on veut exécuter du code JavaScript, attendre la disponibilité du DOM est :&lt;br /&gt;&lt;br /&gt;
+        &lt;input type=&quot;radio&quot; id=&quot;r4&quot; name=&quot;q2&quot;&gt;Vital&lt;br /&gt;
+        &lt;input type=&quot;radio&quot; id=&quot;r5&quot; name=&quot;q2&quot;&gt;Inutile&lt;br /&gt;
+        &lt;input type=&quot;radio&quot; id=&quot;r6&quot; name=&quot;q2&quot;&gt;Parfois important, parfois sans importance&lt;br /&gt;&lt;br /&gt;
+        &lt;span class=&quot;reponse&quot; id=&quot;reponse2&quot;&gt;Il est impératif d'attendre la disponibilité du DOM avant d'exécuter du code 
+          JavaScript. Sans quoi, ce code pourrait s'appliquer à un élément indisponible et provoquer un comportement 
+          inattendu, voire même un plantage du navigateur.&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;img id=&quot;img2&quot; src=&quot;question.png&quot; width=&quot;45px&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;question&quot;&gt;
+      &lt;div class=&quot;texte&quot;&gt;
+        &lt;h2&gt;Question 3&lt;/h2&gt;
+        Quel énoncé décrit correctement la relation entre JavaScript et Java ?&lt;br /&gt;&lt;br /&gt;
+        &lt;input type=&quot;radio&quot; id=&quot;r7&quot; name=&quot;q3&quot;&gt;JavaScript et Java ne sont que des noms différents pour la même chose&lt;br /&gt;
+        &lt;input type=&quot;radio&quot; id=&quot;r8&quot; name=&quot;q3&quot;&gt;Les deux langages apportent de l'interactivité aux pages Web&lt;br /&gt;
+        &lt;input type=&quot;radio&quot; id=&quot;r9&quot; name=&quot;q3&quot;&gt;Les codes JavaScript et Java sont compilés vers du ByteCode, qui est interprété 
+          par le navigateur&lt;br /&gt;&lt;br /&gt;
+        &lt;span class=&quot;reponse&quot; id=&quot;reponse3&quot;&gt;JavaScript et Java sont des langages différents. Le code source JavaScript est 
+          interprété, alors que le code Java est compilé. Java peut être intégré sous forme d'applet à des pages web. La 
+          bonne réponse est donc la deuxième.&lt;/span&gt;
+      &lt;/div&gt;  
+      &lt;img id=&quot;img3&quot; src=&quot;question.png&quot; width=&quot;45px&quot; /&gt;
+    &lt;/div&gt;
+  &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>  
+    <p>Examinons la structure de ce document.</p>
+    <p>L'en-tête ne contient aucun code de mise en forme CSS, ce qui est tout à fait normal puisque vous devrez écrire ce code de mise en forme avec JavaScript. Le corps du document contient un formulaire qui contient lui-même un lien hypertexte ainsi que trois balises <code>&lt;div&gt;</code> de classe <code>question</code> qui correspondent aux trois questions du QCM.</p>
+    <p>
+      Chaque balise <code>&lt;div&gt;</code> de classe <code>question</code> contient deux éléments essentiels :
+      <ol>
+      	<li>une autre balise <code>&lt;div&gt;</code> de classe <code>texte</code> dans laquelle seront affichés tous les éléments textuels ;</li>
+      	<li>une balise <code>&lt;img&gt;</code> qui pointe vers l'image <code>question.png</code>.</li>
+      </ol>
+      Cet agencement a été créé pour faciliter la mise en forme flottante de l'image par rapport au texte.
+    </p>
+    <p>
+      À l'intérieur de chaque balise <code>&lt;div&gt;</code> de classe <code>&lt;texte&gt;</code>, il y a six éléments :	
+      <ol>
+      	<li>un titre de niveau 2 ;</li>
+      	<li>le texte de la question ;</li>
+      	<li>trois boutons radio (balises <code>&lt;input&gt;</code>) suivis des réponses possibles ;</li>
+      	<li>une balise <code>&lt;span&gt;</code> dans laquelle s'affiche le texte qui explique la bonne réponse lorsque l'utilisateur place le pointeur de la souris sur le lien « Tester les réponses ».</li>
+      </ol>
+    </p>
+    <p>Notez que les éléments <code>&lt;img&gt;</code>, <code>&lt;input&gt;</code> et <code>&lt;span&gt;</code> ont identifiants.</p>
+    <p>L'en-tête du document contient un élément <code>script</code>. C'est ici où vous devrez insérer autant d'instructions JavaScript que nécessaires pour arriver au résultat demandé.
+    <p>Voici les trois images utilisées dans le document :</p>
+    <figure><img src="question.png" alt="question.png" width="50px"/></figure>
+    <figure><img src="bon.png" alt="bon.png" width="50px"/></figure>
+    <figure><img src="mauvais.png" alt="mauvais.png" width="50px"/></figure><br />
+  </section>
+  <section>
+	<h2>Deuxième partie : Mise en forme d'une page web</h2>
+	<p>Avant toute chose, je vais vous montrer à quoi va ressembler le rendu final de cette partie du TP. Pour ça, regardez la figure suivante (Fig. 3) :</p>
+	<figure>
+        <img src="mef.png" alt="mef.png"/>
+	    <figcaption>Fig.3 : Cette page n'attend plus que votre code JavaScript.</figcaption>
+	</figure>
+	<p>La page est composée de deux balises <code>&lt;div&gt;</code>. La première contient des informations textuelles et une image. La deuxième contient un formulaire composé de plusieurs listes déroulantes, d'une zone de texte et de deux boutons de commande. Lorsque l'utilisateur agira sur les contrôles du formulaire, le contenu de la première balise <code>&lt;div&gt;</code> devra être mis à jour en conséquence.</p>
+	<p>Rassurez-vous, je vous fais grâce du code HTML/CSS. Ce que je vous demande ici, c'est de donner vie aux éléments du formulaire en effectuant les actions nécessaires en JavaScript lorsque l'utilisateur sélectionne une valeur dans une liste déroulante ou clique sur un bouton. Le tableau suivant résume la fonction des différents contrôles du formulaire.</p>
+	<table>
+	  <thead>
+	  	<tr>
+	  	  <th>Contrôle</th>
+	  	  <th>Effet dans la première balise <code>&lt;div&gt;</code></th>
+	  	</tr>
+	  </thead>
+	  <tbody>
+	  	<tr>
+	  	  <td>Couleur de fond</td>
+	  	  <td>Modification de la couleur de fond en utilisant la valeur qui se trouve dans l'attribut &laquo; value &raquo; de la balise <code>&lt;option&gt;</code> choisie.</td>	  	  	
+	  	</tr>
+	  	<tr>
+	  	  <td>Texte</td>
+	  	  <td>Modification de l'attribut de tout le texte.</td>	  	  	
+	  	</tr>
+	  	<tr>
+	  	  <td>Police</td>
+	  	  <td>Modification de la police de tout le texte.</td>	  	  	
+	  	</tr>
+	  	<tr>
+	  	  <td>Police 1ère phrase</td>
+	  	  <td>Modification de la police de la première phrase.</td>	  	  	
+	  	</tr>
+	  	<tr>
+	  	  <td>1ers carac. phrases</td>
+	  	  <td>Modification des caractéristiques du premier caractère de chaque phrase.</td>	  	  	
+	  	</tr>
+	  	<tr>
+	  	  <td>Mot en rouge</td>
+	  	  <td>Écriture en caractères rouges du mot spécifié dans le premier paragraphe. Par exemple, si l'utilisateur tape &laquo; 10 &raquo; dans la zone de texte, le dixième mot du premier paragraphe doit apparaître en caractères rouges.</td>	  	  	
+	  	</tr>
+	  	<tr>
+	  	  <td>Bordure images</td>
+	  	  <td>Affecter une bordure aux images.</td>	  	  	
+	  	</tr>
+	  	<tr>
+	  	  <td>RAZ formulaire</td>
+	  	  <td>Remettre à zéro le formulaire et la mise en forme de la première balise <code>&lt;div&gt;</code>.</td>	  	  	
+	  	</tr>
+	  </tbody>
+	</table>
+	<p>Voici le code HTML/CSS sur lequel vous allez travailler :</p>
+	<pre class="pre">
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;fr&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;title&gt;Mise en forme&lt;/title&gt;
+  &lt;style type=&quot;text/css&quot;&gt;
+    #contenu {
+      width: 500px;
+      height: 450px;
+      border: 1px black solid;
+      float: left;
+      margin-right: 10px;
+      overflow-y: auto;
+    }
+    #controles {
+      width: 300px;
+      height: 450px;
+      border: 1px black solid;
+      float: left;
+    }
+    #controles div{
+      margin-bottom: 10px;
+      padding: 5px;
+    }
+    label {
+      float: left;
+      width: 140px; 
+    }
+    #image {
+      width: 110px;
+      height: 110px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    p { 
+      padding-left: 5px; 
+      padding-right: 5px; 
+      font-family: 'Times New Roman';
+    }
+  &lt;/style&gt;
+  &lt;script&gt;
+    // Entrez les instructions JavaScript ici
+  &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;contenu&quot;&gt;
+    &lt;p&gt;
+      En se réveillant un matin après des rêves agités, Gregor Samsa se retrouva, dans son lit, métamorphosé en un monstrueux 
+      insecte. Il était sur le dos, un dos aussi dur qu’une carapace, et, en relevant un peu la tête, il vit, bombé, brun, 
+      cloisonné par des arceaux plus rigides, son abdomen sur le haut duquel la couverture, prête à glisser tout à fait, ne 
+      tenait plus qu’à peine. Ses nombreuses pattes, lamentablement grêles par comparaison avec la corpulence qu’il avait par 
+      ailleurs, grouillaient désespérément sous ses yeux.
+    &lt;/p&gt;
+    &lt;div id=&quot;image&quot;&gt;&lt;img src=&quot;kafka.jpg&quot; width=&quot;90px&quot;&gt;&lt;/div&gt;
+    &lt;p&gt;&laquo; 
+      Qu’est-ce qui m’est arrivé ? &raquo; pensa-t-il. Ce n’était pas un rêve. Sa chambre, une vraie chambre humaine, juste un 
+      peu trop petite, était là tranquille entre les quatre murs qu’il connaissait bien. Au-dessus de la table où était 
+      déballée une collection d’échantillons de tissus - Samsa était représentant de commerce -, on voyait accrochée l’image 
+      qu’il avait récemment découpée dans un magazine et mise dans un joli cadre doré. Elle représentait une dame munie d’une 
+      toque et d’un boa tous les deux en fourrure et qui, assise bien droite, tendait vers le spectateur un lourd manchon de 
+      fourrure où tout son avant-bras avait disparu. 
+    &lt;/p&gt; 
+    &lt;p&gt;
+      Le regard de Gregor se tourna ensuite vers la fenêtre, et le temps maussade - on entendait les gouttes de pluie frapper 
+      le rebord en zinc - le rendit tout mélancolique. &laquo; Et si je redormais un peu et oubliais toutes ces sottises ? &raquo; se 
+      dit-il ; mais c’était absolument irréalisable, car il avait l’habitude de dormir sur le côté droit et, dans l’état où 
+      il était à présent, il était incapable de se mettre dans cette position. Quelque énergie qu’il mît à se jeter sur le 
+      côté droit, il tanguait et retombait à chaque fois sur le dos. 
+    &lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;controles&quot;&gt;
+    &lt;div&gt;
+      &lt;label for=&quot;couleurFond&quot;&gt;Couleur de fond&lt;/label&gt;
+      &lt;select id=&quot;couleurFond&quot;&gt;
+        &lt;option value=&quot;#FFFFFF&quot;&gt;Blanc&lt;/option&gt;
+        &lt;option value=&quot;#9FFEF1&quot;&gt;Bleu&lt;/option&gt;
+        &lt;option value=&quot;#9FFECE&quot;&gt;Vert&lt;/option&gt;
+        &lt;option value=&quot;#FAFE9F&quot;&gt;Jaune&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;    
+    &lt;div&gt;
+      &lt;label for=&quot;texte&quot;&gt;Texte&lt;/label&gt;
+      &lt;select id=&quot;texte&quot;&gt;
+        &lt;option value=&quot;Normal&quot;&gt;Normal&lt;/option&gt;
+        &lt;option value=&quot;Gras&quot;&gt;Gras&lt;/option&gt;
+        &lt;option value=&quot;Italique&quot;&gt;Italique&lt;/option&gt;
+        &lt;option value=&quot;Souligne&quot;&gt;Souligné&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;     
+    &lt;div&gt;
+      &lt;label for=&quot;police&quot;&gt;Police&lt;/label&gt;
+      &lt;select id=&quot;police&quot;&gt;
+        &lt;option value=&quot;Times New Roman&quot;&gt;Times New Roman&lt;/option&gt;
+        &lt;option value=&quot;Courier New&quot;&gt;Courier New&lt;/option&gt;
+        &lt;option value=&quot;Arial&quot;&gt;Arial&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;label for=&quot;policePremPhr&quot;&gt;Police 1ère phrase&lt;/label&gt;
+      &lt;select id=&quot;policePremPhr&quot;&gt;
+        &lt;option value=&quot;Times New Roman&quot;&gt;Times New Roman&lt;/option&gt;
+        &lt;option value=&quot;Courier New&quot;&gt;Courier New&lt;/option&gt;
+        &lt;option value=&quot;Arial&quot;&gt;Arial&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;label for=&quot;premCaracPhrs&quot;&gt;1ers carac. phrases&lt;/label&gt;
+      &lt;select id=&quot;premCaracPhrs&quot;&gt;
+        &lt;option value=&quot;Normal&quot;&gt;Normal&lt;/option&gt;
+        &lt;option value=&quot;Gras&quot;&gt;Gras&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;label for=&quot;mot&quot;&gt;Mot en rouge&lt;/label&gt;
+      &lt;input type=&quot;text&quot; id=&quot;mot&quot; size=&quot;2&quot;&gt;
+      &lt;button id=&quot;couleurMot&quot;&gt;OK&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;label for=&quot;bordureImages&quot;&gt;Bordure images&lt;/label&gt;
+      &lt;select id=&quot;bordureImages&quot;&gt;
+        &lt;option value=&quot;Rien&quot;&gt;Rien&lt;/option&gt;
+        &lt;option value=&quot;Simple&quot;&gt;Simple&lt;/option&gt;
+        &lt;option value=&quot;Double&quot;&gt;Double&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;button id=&quot;raz&quot;&gt;RAZ formulaire&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+    <p>La figure suivante représente l'image que j'ai utilisée, mais vous pouvez évidemment en utiliser une autre (dans ce cas attention aux dimensions).</p>
+    <figure><img src="kafka.jpg" alt="kafka.jpg" width="80px"/></figure>
+    <p>Allez ! Amusez-vous avec JavaScript !</p>
+  </section>
+</body>
+</html>

@@ -1,0 +1,112 @@
+/* Global properties ======================================================== */
+html, body {width:100%; padding:0; margin:0;}
+
+
+body { 	 
+	font: 13px/25px Arial, Helvetica, sans-serif;
+	color:Black;
+	width:100%;
+/*
+	margin-left: 10%;
+*/
+	font-size: 1em;
+	overflow-y:auto;
+}
+
+header {
+text-align : center;
+background-repeat : repeat-x;
+background-image : url('./images/cloud_sea.jpg');
+}
+
+nav ul li {
+list-style : none;
+display : inline;
+}
+
+nav ul {
+padding : 3px 0;
+margin : 10px 0px 10px 0px;
+border-bottom : 1px solid #778;
+}
+
+nav ul li a {
+padding : 3px 0.5em;
+margin-left : 3px;
+border : 1px solid #669;
+border-bottom : none;
+background: #cce;
+text-decoration : none;
+}
+
+#encours {
+background :  white;
+border-bottom: 1px solid white;
+}
+
+section h2 {
+background-color : #66FFFF;
+margin-bottom: 10 px;
+}
+
+
+#maintable {
+background-color:#edebe8;
+border-collapse:collapse;
+}
+
+td{
+width:15%;
+text-align: center;
+}
+
+thead {
+background: blue;
+color: white;
+font-weight: bold;
+}
+
+.xml{
+background-color:red;
+}
+.psy{
+background-color:yellow;
+}
+.web{
+background-color:#aced35;
+}
+.taln{
+background-color:#a64dff;
+}
+.data{
+background-color:#96492d;
+}
+
+.date {
+float:right;
+margin-right:5%;
+}
+
+dt{
+font-weight: bold;
+}
+
+dd{
+margin-left:15px;
+}
+
+img{
+	margin-top:3px;
+}
+
+.img {
+	border: 1px solid blue;
+	display: inline-table;
+	width:130px;
+/*
+	height:12%;
+*/
+	text-align:center;
+	margin-bottom : 3px;
+	
+}

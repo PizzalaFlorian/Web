@@ -1,0 +1,3 @@
+photo1.jpg:Audrey et Noria au Camp, 2012
+photo2.jpg:Traineau au Yukon, 2010
+image1.jpg:Une fleur toute bleue

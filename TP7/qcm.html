@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Questionnaire interactif avec JavaScript</title>
+  
+  <script src="qcm.js"></script>
+</head>
+<body onload="hideAllAnswer();">
+	<div id="test"></div>
+  <form>
+    <a href="" onmouseover="testAnwser();" onmouseout="reset();" >Tester les réponses</a>
+    <div class="question">
+      <div class="texte">
+        <h2>Question 1</h2>
+        Le code JavaScript s'exécute :<br /><br />
+        <input type="radio" id="r1" name="q1">Dans le navigateur<br />
+        <input type="radio" id="r2" name="q1">Sur le serveur où est stocké le code<br />
+        <input type="radio" id="r3" name="q1">Tantôt dans le navigateur, tantôt sur le serveur<br /><br />
+        <span class="reponse" id="reponse1">Le code JavaScript s'exécute toujours sur les clients (ordinateurs, tablettes et 
+          téléphones) qui font référence à ce code via une page HTML.</span>
+      </div>  
+      <img id="img1" src="question.png" width="45px" />
+    </div>
+    <div class="question">
+      <div class="texte">
+        <h2>Question 2</h2>
+        Lorsque l'on veut exécuter du code JavaScript, attendre la disponibilité du DOM est :<br /><br />
+        <input type="radio" id="r4" name="q2">Vital<br />
+        <input type="radio" id="r5" name="q2">Inutile<br />
+        <input type="radio" id="r6" name="q2">Parfois important, parfois sans importance<br /><br />
+        <span class="reponse" id="reponse2">Il est impératif d'attendre la disponibilité du DOM avant d'exécuter du code 
+          JavaScript. Sans quoi, ce code pourrait s'appliquer à un élément indisponible et provoquer un comportement 
+          inattendu, voire même un plantage du navigateur.</span>
+      </div>
+      <img id="img2" src="question.png" width="45px" />
+    </div>
+    <div class="question">
+      <div class="texte">
+        <h2>Question 3</h2>
+        Quel énoncé décrit correctement la relation entre JavaScript et Java ?<br /><br />
+        <input type="radio" id="r7" name="q3">JavaScript et Java ne sont que des noms différents pour la même chose<br />
+        <input type="radio" id="r8" name="q3">Les deux langages apportent de l'interactivité aux pages Web<br />
+        <input type="radio" id="r9" name="q3">Les codes JavaScript et Java sont compilés vers du ByteCode, qui est interprété 
+          par le navigateur<br /><br />
+        <span class="reponse" id="reponse3">JavaScript et Java sont des langages différents. Le code source JavaScript est 
+          interprété, alors que le code Java est compilé. Java peut être intégré sous forme d'applet à des pages web. La 
+          bonne réponse est donc la deuxième.</span>
+      </div>  
+      <img id="img3" src="question.png" width="45px" />
+    </div>
+  </form>
+</body>
+</html>

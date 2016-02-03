@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Cheniiiiiiilles</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script>
+  ////////////////////////////////////
+        function Anneau(x, y, r) {
+            this.x=x;
+            this.y=y;
+            this.r=r;
+        };
+
+        Anneau.prototype.dessiner = function(ctxt) {  
+            ctxt.beginPath();
+            ctxt.arc(this.x, this.y, this.r, 0, Math.PI * 2, true);
+            ctxt.fillStyle="blue";
+            ctxt.fill();
+        };
+
+        Anneau.prototype.placerA = function(px,py){
+            this.x=px;
+            this.y=py;
+
+        };
+
+    //////////////////////////////////////////////////    
+
+        function Tete(x, y, r, cap){
+            this.cap= 0; //cap
+            this.x=x;
+            this.y=y;
+            this.r=r;
+        };
+
+       // Tete.prototype = new Anneau;
+
+       Tete.prototype.devierCap= function(deltaC){
+                this.cap += deltaC;
+            };
+
+        Tete.prototype.deplacerSelonCap= function(){
+                this.x = posSuivante(this,"x");
+                this.y = posSuivante(this,"y");
+        };
+
+        function posSuivante (tete,coord) {
+             if (coord == "x") {
+                    return tete.x + tete.r * Math.cos(tete.cap);
+                }
+
+            else{
+                    return tete.y + tete.r * Math.sin(tete.cap);
+             }
+         };
+
+
+
+         Tete.prototype.dessiner = function(ctxt){
+            ctxt.beginPath();
+            ctxt.arc(this.x, this.y, this.r, 0, Math.PI * 2, true);
+            ctxt.fillStyle = "black";   
+            ctxt.fill();
+        };
+
+        Tete.prototype.placerA = function(px,py){
+                this.px=px;
+                this.py=py;
+            }
+
+       Tete.prototype.capOkDroiteGauche = function(){
+                  return posSuivante(this,"x") <= canvas.width - this.r &&
+                 posSuivante(this,"y") <= canvas.height - this.r;
+                    }; 
+
+
+            Tete.prototype.capOkHautBas = function(){
+                  return posSuivante(this,"x") >= this.r &&
+            posSuivante(this,"y") >= this.r;  
+                }; 
+
+////////////////////////////////////////////////////////
+          
+            function Chenille(canvas, nbAnneaux, r){
+               // this.canvas = canvas;
+               var x = Math.floor((Math.random() * canvas.width-r) + r);
+    var y = Math.floor((Math.random() * canvas.height-r) + r);
+               // var x= Math.round(canvas.width/2);
+              //  var y = Math.round(canvas.height/2);
+                this.tete=new Tete(x,y,r,0);
+                this.anneaux=[];
+               if (nbAnneaux > 0) {
+        this.anneaux[0] = new Anneau(this.tete.x-this.tete.r, this.tete.y, this.tete.r);
+        for (var i = 1; i < nbAnneaux; i++) {
+            this.anneaux[i] = new Anneau(this.anneaux[i-1].x-this.anneaux[i-1].r, this.anneaux[i-1].y, this.tete.r);
+        }
+    }
+            };
+
+        Chenille.prototype.dessiner = function(ctxt){
+            this.tete.dessiner(ctxt);
+
+            for (var i = 0; i<this.anneaux.length;i++){
+                this.anneaux[i].dessiner(ctxt);
+            }
+
+        };
+
+    Chenille.prototype.deplacer=function(){
+    
+    for (var i = this.anneaux.length-1; i >= 1; i--) {
+        this.anneaux[i].x = this.anneaux[i-1].x;
+        this.anneaux[i].y = this.anneaux[i-1].y;
+    }
+    if (this.anneaux.length > 0) {
+        this.anneaux[0].x = this.tete.x;
+        this.anneaux[0].y = this.tete.y;
+    }
+    
+    capDroiteGauche = this.tete.capOkDroiteGauche();
+    capHautBas = this.tete.capOkHautBas();
+    this.tete.devierCap(((Math.floor((Math.random() * 60) + 1))-30)/100);
+    if(!capDroiteGauche || !capHautBas) {
+        do {
+            this.tete.devierCap((Math.floor((Math.random() * 60) + 1))-30);
+            capDroiteGauche = this.tete.capOkDroiteGauche();
+            capHautBas = this.tete.capOkHautBas();
+        } while(!capDroiteGauche || !capHautBas);
+    }
+    this.tete.deplacerSelonCap();   
+    
+};
+            
+
+//////////////////////////////////////////////////////////////////
+
+var canvas;
+var ctxt;
+chenilles = [];
+pommes = [];
+initialisation = true;
+r = 12; //Rayon initial
+nbAnneaux = 3; 
+
+        function init(){
+            var startBtn = document.getElementById("startBtn");
+            var canvas = document.getElementById("myCanvas");
+            var ctxt = canvas.getContext("2d");
+             var chenilles=[];
+            for(var i=0; i<5; i++){
+                chenilles[i]= new Chenille(canvas,10,14);
+                chenilles[i].dessiner(ctxt);
+            }
+            
+        };
+
+        function deplacerAllChenilles() {
+    for (var i = 0; i < chenilles.length; i++) {
+        chenilles[i].deplacer();
+    }
+};
+
+function dessinerAllChenilles() {
+    for (var i = 0; i < chenilles.length; i++) {
+        chenilles[i].dessiner();
+    }
+};
+
+        startBtn.onclick = function() {
+         stopBtn.disabled = false;
+        startBtn.disabled = true;
+
+        timerId = setInterval(function() {
+            deplacerAllChenilles();
+            refreshScreen(); 
+        }, 40);
+    }
+
+    function refreshScreen() {
+    ctxt.clearRect(0, 0, canvas.width, canvas.height);
+    dessinerAllChenilles();
+    dessinerAllPommes();
+};
+
+
+
+        </script>
+        <style>
+            canvas{
+                border: 1px solid;
+                background-color: lightgreen;
+            }
+        </style>
+
+
+    </head>
+    <body onload="init()">
+        <fieldset>
+            <legend>Le royaume des chenilles</legend>
+            <div>
+                nombre de chenilles initial: <input type="text" id="nombre"/> <br>
+               
+                <button id="startBtn">Start</button> 
+                <button id="stop" onclick="stop()" >Stop</button>
+            </div>
+        </fieldset>
+        <canvas id="myCanvas" width="800" height="600" style="border:1px solid #d3d3d3;"> </canvas>
+
+    </body>
+</html>

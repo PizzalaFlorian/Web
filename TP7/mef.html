@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Mise en forme</title>
+  <style type="text/css">
+    #contenu {
+      width: 500px;
+      height: 450px;
+      border: 1px black solid;
+      float: left;
+      margin-right: 10px;
+      overflow-y: auto;
+    }
+    #controles {
+      width: 300px;
+      height: 450px;
+      border: 1px black solid;
+      float: left;
+    }
+    #controles div{
+      margin-bottom: 10px;
+      padding: 5px;
+    }
+    label {
+      float: left;
+      width: 140px; 
+    }
+    #image {
+      width: 110px;
+      height: 110px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    p { 
+      padding-left: 5px; 
+      padding-right: 5px; 
+      font-family: 'Times New Roman';
+      text-align : justify;
+    }
+  </style>
+  <script src="mef.js"></script>
+</head>
+<body>
+  <div id="contenu">
+    <p>
+      En se réveillant un matin après des rêves agités, Gregor Samsa se retrouva, dans son lit, métamorphosé en un monstrueux 
+      insecte. Il était sur le dos, un dos aussi dur qu’une carapace, et, en relevant un peu la tête, il vit, bombé, brun, 
+      cloisonné par des arceaux plus rigides, son abdomen sur le haut duquel la couverture, prête à glisser tout à fait, ne 
+      tenait plus qu’à peine. Ses nombreuses pattes, lamentablement grêles par comparaison avec la corpulence qu’il avait par 
+      ailleurs, grouillaient désespérément sous ses yeux.
+    </p>
+    <div id="image"><img src="kafka.jpg" width="90px"></div>
+    <p>« 
+      Qu’est-ce qui m’est arrivé ? » pensa-t-il. Ce n’était pas un rêve. Sa chambre, une vraie chambre humaine, juste un 
+      peu trop petite, était là tranquille entre les quatre murs qu’il connaissait bien. Au-dessus de la table où était 
+      déballée une collection d’échantillons de tissus - Samsa était représentant de commerce -, on voyait accrochée l’image 
+      qu’il avait récemment découpée dans un magazine et mise dans un joli cadre doré. Elle représentait une dame munie d’une 
+      toque et d’un boa tous les deux en fourrure et qui, assise bien droite, tendait vers le spectateur un lourd manchon de 
+      fourrure où tout son avant-bras avait disparu. 
+    </p> 
+    <p>
+      Le regard de Gregor se tourna ensuite vers la fenêtre, et le temps maussade - on entendait les gouttes de pluie frapper 
+      le rebord en zinc - le rendit tout mélancolique. « Et si je redormais un peu et oubliais toutes ces sottises ? » se 
+      dit-il ; mais c’était absolument irréalisable, car il avait l’habitude de dormir sur le côté droit et, dans l’état où 
+      il était à présent, il était incapable de se mettre dans cette position. Quelque énergie qu’il mît à se jeter sur le 
+      côté droit, il tanguait et retombait à chaque fois sur le dos. 
+    </p>
+  </div>
+  <div id="controles">
+    <div>
+      <label for="couleurFond">Couleur de fond</label>
+      <select id="couleurFond" onmouseout="setBgColor()">
+        <option value="#FFFFFF">Blanc</option>
+        <option value="#9FFEF1">Bleu</option>
+        <option value="#9FFECE">Vert</option>
+        <option value="#FAFE9F">Jaune</option>
+      </select>
+    </div>    
+    <div>
+      <label for="texte">Texte</label>
+      <select id="texte" onmouseout="setTextType()">
+        <option value="Normal">Normal</option>
+        <option value="Gras">Gras</option>
+        <option value="Italique">Italique</option>
+        <option value="Souligne">Souligné</option>
+      </select>
+    </div>     
+    <div>
+      <label for="police">Police</label>
+      <select id="police" onmouseout="setTextFont()">
+        <option value="Times New Roman">Times New Roman</option>
+        <option value="Courier New">Courier New</option>
+        <option value="Arial">Arial</option>
+      </select>
+    </div>
+    <div>
+      <label for="policePremPhr">Police 1ère phrase</label>
+      <select id="policePremPhr">
+        <option value="Times New Roman">Times New Roman</option>
+        <option value="Courier New">Courier New</option>
+        <option value="Arial">Arial</option>
+      </select>
+    </div>
+    <div>
+      <label for="premCaracPhrs">1ers carac. phrases</label>
+      <select id="premCaracPhrs">
+        <option value="Normal">Normal</option>
+        <option value="Gras">Gras</option>
+      </select>
+    </div>
+    <div>
+      <label for="mot">Mot en rouge</label>
+      <input type="text" id="mot" size="2">
+      <button id="couleurMot">OK</button>
+    </div>
+    <div>
+      <label for="bordureImages">Bordure images</label>
+      <select id="bordureImages">
+        <option value="Rien">Rien</option>
+        <option value="Simple">Simple</option>
+        <option value="Double">Double</option>
+      </select>
+    </div>
+    <div>
+      <button id="raz">RAZ formulaire</button>
+    </div>
+  </div>
+</body>
+</html>
