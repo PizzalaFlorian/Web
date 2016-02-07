@@ -77,14 +77,30 @@ Tete.prototype.capOK = function(canvas){
 	return true;
 }
 
+Tete.prototype.traverser = function(canvas){
+	var xPrime = this.x + this.r*(Math.cos((Math.PI*this.cap)/180));
+	var yPrime = this.y + this.r*(Math.sin((Math.PI*this.cap)/180));
+	if(xPrime >= 500)
+		this.x = 0;
+	if(xPrime <= 0)
+		this.x = 500;
+	if(yPrime >= 500) 
+		this.y = 0;
+	if(yPrime <= 0)
+		this.y = 500;
+}
+
 Tete.prototype.deplacer = function(canvas,_event_){
 	
 	this.devierCap(0);
-			if(this.capOK(canvas))
+			/*if(this.capOK(canvas))
 				this.deplacerSelonCap();
 			else{
 				this.devierCap(90);
-			}
+			}*/
+	this.traverser(canvas);	
+	this.deplacerSelonCap();
+		
 }
 
 
@@ -121,10 +137,10 @@ Chenille.prototype.dessiner = function(ctxt){
 function whatKey(evt){
 	switch (evt.keyCode) {
 		case 37:
-		chenille.tete.devierCap(-30);
+		chenille.tete.devierCap(-45);
 		break;
 		case 39:
-		chenille.tete.devierCap(30);
+		chenille.tete.devierCap(45);
 		break;
 	}
 }
@@ -156,7 +172,7 @@ Chenille.prototype.peutmanger = function (pomme){
 	if(Math.sqrt(
 	   Math.pow((this.tete.x - pomme.x),2) 
 	   + Math.pow((this.tete.y - pomme.y),2))
-	   <=pomme.r)
+	   <=(pomme.r*2))
 		return 1;
 	else 
 		return 0;
@@ -166,6 +182,7 @@ Chenille.prototype.manger = function(pomme){
 	if(this.peutmanger(pomme)){
 		this.ajoutAnneau();
 		pomme.placerP();
+		score++;
 	}
 }
 /***Pomme****/
@@ -191,19 +208,17 @@ Pomme.prototype.dessiner = function(ctx){
 }
 
 
-
 function init() {
     
-    var timerId = 0;
+	score = 0;
+	document.getElementById("myScore").innerhtml = score;
     canvas = document.getElementById("myCanvas");
-    var ctxt = canvas.getContext("2d");
-    var tour = 1;
-
+    ctxt = canvas.getContext("2d");
 	var nbrAnneaux = 2;
-	chenille = new Chenille(canvas,nbrAnneaux,14);
-	chenille.ajoutAnneau();
+	chenille = new Chenille(canvas,nbrAnneaux,10);
+	//chenille.ajoutAnneau();
 	chenille.dessiner(ctxt);
-	var pomme = new Pomme(20,canvas);
+	var pomme = new Pomme(10,canvas);
 	pomme.dessiner(ctxt);
 
     document.getElementById("startBtn").onclick = function() {
@@ -213,11 +228,12 @@ function init() {
             ctxt.clearRect(0, 0, canvas.width, canvas.height);
 			
 			chenille.deplacer(canvas,pomme);
+			document.getElementById("myScore").innerhtml = score;
 			chenille.dessiner(ctxt);
 			pomme.dessiner(ctxt);
 			window.addEventListener('keydown', whatKey, true);
 			
-        }, 70);
+        }, 80);
     };
     document.getElementById("stopBtn").onclick = function() {
         document.getElementById("stopBtn").disabled = true;
