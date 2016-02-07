@@ -137,9 +137,9 @@ Chenille.prototype.coupeChenille = function(indice){
 	this.nbrAnneaux = indice;
 	//var sc = 0;
 	if(indice > 50)
-		score = (indice-50)/3+15+20;
+		score = Math.floor((indice-50)/3+15+20);
 	else if(indice > 20 && indice <=50)
-		score = ((indice-20)/2)+20;
+		score = Math.floor(((indice-20)/2)+20);
 	else	
 		score=indice;
 }
