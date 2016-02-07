@@ -127,10 +127,21 @@ Chenille.prototype.ajoutAnneau = function(){
 	this.anneaux[this.nbrAnneaux-2].r);
 }
 
+Chenille.prototype.ajoutNAnneau = function(N){
+	for(var i=0; i<N;i++)
+		this.ajoutAnneau();	
+}
+
 Chenille.prototype.coupeChenille = function(indice){
 	this.anneaux.splice(indice,this.nbrAnneaux);
 	this.nbrAnneaux = indice;
-	score=indice;
+	//var sc = 0;
+	if(indice > 50)
+		score = (indice-50)/3+15+20;
+	else if(indice > 20 && indice <=50)
+		score = ((indice-20)/2)+20;
+	else	
+		score=indice;
 }
 
 Chenille.prototype.peutcouper = function(){
@@ -200,6 +211,10 @@ Chenille.prototype.peutmanger = function (pomme){
 Chenille.prototype.manger = function(pomme){
 	if(this.peutmanger(pomme)){
 		this.ajoutAnneau();
+		if(score>20)
+			this.ajoutAnneau();
+		if(score>50)
+			this.ajoutAnneau();	
 		pomme.placerP();
 		score++;
 	}
