@@ -127,6 +127,24 @@ Chenille.prototype.ajoutAnneau = function(){
 	this.anneaux[this.nbrAnneaux-2].r);
 }
 
+Chenille.prototype.coupeChenille = function(indice){
+	this.anneaux.splice(indice,this.nbrAnneaux);
+	this.nbrAnneaux = indice;
+	score=indice;
+}
+
+Chenille.prototype.peutcouper = function(){
+	for(var i = 2; i < this.nbrAnneaux; i++){
+		var xA = this.anneaux[i].x;
+		var yA = this.anneaux[i].y;
+		if(Math.sqrt(
+		   Math.pow((this.tete.x - xA),2) 
+		   + Math.pow((this.tete.y - yA),2))
+		   <=(this.tete.r*2))
+			this.coupeChenille(i);
+	}
+}
+
 Chenille.prototype.dessiner = function(ctxt){
 	this.tete.dessiner(ctxt);
 	for(var i=0; i<this.nbrAnneaux;i++){
@@ -151,6 +169,7 @@ Chenille.prototype.deplacer = function (canvas,pomme){
 	var y = this.tete.y;
 	
 	this.tete.deplacer(canvas);
+	this.peutcouper();
 	this.manger(pomme);
 	
 	var xCurr = this.anneaux[0].x;
@@ -210,11 +229,12 @@ Pomme.prototype.dessiner = function(ctx){
 
 function init() {
     
-	score = 0;
-	document.getElementById("myScore").innerhtml = score;
+	score = "0";
+	vitesse=70;
+	document.getElementById("myScore").innerHTML = score;
     canvas = document.getElementById("myCanvas");
     ctxt = canvas.getContext("2d");
-	var nbrAnneaux = 2;
+	var nbrAnneaux = 1;
 	chenille = new Chenille(canvas,nbrAnneaux,10);
 	//chenille.ajoutAnneau();
 	chenille.dessiner(ctxt);
@@ -228,12 +248,12 @@ function init() {
             ctxt.clearRect(0, 0, canvas.width, canvas.height);
 			
 			chenille.deplacer(canvas,pomme);
-			document.getElementById("myScore").innerhtml = score;
+			document.getElementById("myScore").innerHTML = score;
 			chenille.dessiner(ctxt);
 			pomme.dessiner(ctxt);
-			window.addEventListener('keydown', whatKey, true);
+			window.addEventListener('keyup', whatKey, true);
 			
-        }, 80);
+        }, vitesse);
     };
     document.getElementById("stopBtn").onclick = function() {
         document.getElementById("stopBtn").disabled = true;
