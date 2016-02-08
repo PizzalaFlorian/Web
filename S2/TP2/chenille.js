@@ -248,7 +248,7 @@ function init() {
 	var song = new Audio('tequila.mp3');
 	plop = new Audio('plop.wav');
 	scream = new Audio('scream.wav');
-	song.volume = 0.3;	
+	song.volume = 0.2;	
 	score = "0";
 	vitesse=70;
 	document.getElementById("myScore").innerHTML = score;
