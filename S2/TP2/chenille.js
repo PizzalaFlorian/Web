@@ -39,21 +39,29 @@ Tete.prototype.placerT = function(px,py){
 * @returns {undefined}
 */
 Anneau.prototype.dessiner = function(ctx){
+	var anneau = new Image();
+	anneau.src = 'anneau.png';
 	ctx.beginPath();
+	ctx.drawImage(anneau, this.x-this.r-5, this.y-this.r-5);
+	/*ctx.beginPath();
 	ctx.arc(this.x,this.y,this.r,0,Math.PI*2,true);
 	ctx.strokeStyle = "black";
 	ctx.fillStyle = "bisque";
     ctx.fill();
-	ctx.stroke();
+	ctx.stroke();*/
 }
 
 Tete.prototype.dessiner = function(ctx){
+	var tete = new Image();
+	tete.src = 'tete.png';
 	ctx.beginPath();
+	ctx.drawImage(tete, this.x-this.r-5, this.y-this.r-5);
+	/*ctx.beginPath();
 	ctx.arc(this.x,this.y,this.r,0,Math.PI*2,true);
 	ctx.strokeStyle = "red";
 	ctx.fillStyle = "black";
     ctx.fill();
-	ctx.stroke();
+	ctx.stroke();*/
 }
 /**
  * Deplacement
@@ -135,6 +143,7 @@ Chenille.prototype.ajoutNAnneau = function(N){
 Chenille.prototype.coupeChenille = function(indice){
 	this.anneaux.splice(indice,this.nbrAnneaux);
 	this.nbrAnneaux = indice;
+	scream.volume = 0.3;
 	scream.play();
 	//var sc = 0;
 	if(indice > 50)
@@ -235,31 +244,43 @@ Pomme.prototype.placerP = function(){
 }
 
 Pomme.prototype.dessiner = function(ctx){
+	var pomme = new Image();
+	pomme.src = 'pomme.png';
 	ctx.beginPath();
-	ctx.arc(this.x,this.y,this.r,0,Math.PI*2,true);
+	ctx.drawImage(pomme, this.x-this.r-5, this.y-this.r-5);
+	/*ctx.arc(this.x,this.y,this.r,0,Math.PI*2,true);
 	ctx.strokeStyle = "black";
 	ctx.fillStyle = "red";
     ctx.fill();
-	ctx.stroke();
+	ctx.stroke();*/
 }
 
 
 function init() {
+	/*musique*/
 	var song = new Audio('tequila.mp3');
 	plop = new Audio('plop.wav');
 	scream = new Audio('scream.wav');
-	song.volume = 0.2;	
+	song.volume = 0.1;	
+	
+	/*image de fond*/
+	var img = new Image();   // Crée un nouvel objet Image
+	img.src = 'pelouse.jpg'; // Définit le chemin vers sa source
+	
+	/*parametre de jeu */
 	score = "0";
-	vitesse=70;
+	vitesse=65;
 	document.getElementById("myScore").innerHTML = score;
     canvas = document.getElementById("myCanvas");
     ctxt = canvas.getContext("2d");
+	
 	var nbrAnneaux = 1;
 	chenille = new Chenille(canvas,nbrAnneaux,10);
-	//chenille.ajoutAnneau();
-	chenille.dessiner(ctxt);
 	var pomme = new Pomme(10,canvas);
-	pomme.dessiner(ctxt);
+    pomme.dessiner(ctxt);
+    chenille.dessiner(ctxt);
+	ctxt.drawImage(img,0,0);
+	
 	
     document.getElementById("startBtn").onclick = function() {
 		if(song.paused)
@@ -268,7 +289,7 @@ function init() {
         document.getElementById("startBtn").disabled = true;
         timerId = setInterval(function() {
             ctxt.clearRect(0, 0, canvas.width, canvas.height);
-			
+			ctxt.drawImage(img,0,0);
 			chenille.deplacer(canvas,pomme);
 			document.getElementById("myScore").innerHTML = score;
 			chenille.dessiner(ctxt);
