@@ -135,6 +135,7 @@ Chenille.prototype.ajoutNAnneau = function(N){
 Chenille.prototype.coupeChenille = function(indice){
 	this.anneaux.splice(indice,this.nbrAnneaux);
 	this.nbrAnneaux = indice;
+	scream.play();
 	//var sc = 0;
 	if(indice > 50)
 		score = Math.floor((indice-50)/3+15+20);
@@ -211,6 +212,7 @@ Chenille.prototype.peutmanger = function (pomme){
 Chenille.prototype.manger = function(pomme){
 	if(this.peutmanger(pomme)){
 		this.ajoutAnneau();
+		plop.play();
 		if(score>20)
 			this.ajoutAnneau();
 		if(score>50)
@@ -243,7 +245,10 @@ Pomme.prototype.dessiner = function(ctx){
 
 
 function init() {
-    
+	var song = new Audio('tequila.mp3');
+	plop = new Audio('plop.wav');
+	scream = new Audio('scream.wav');
+	song.volume = 0.3;	
 	score = "0";
 	vitesse=70;
 	document.getElementById("myScore").innerHTML = score;
@@ -255,8 +260,10 @@ function init() {
 	chenille.dessiner(ctxt);
 	var pomme = new Pomme(10,canvas);
 	pomme.dessiner(ctxt);
-
+	
     document.getElementById("startBtn").onclick = function() {
+		if(song.paused)
+			song.play();
         document.getElementById("stopBtn").disabled = false;
         document.getElementById("startBtn").disabled = true;
         timerId = setInterval(function() {
@@ -271,6 +278,7 @@ function init() {
         }, vitesse);
     };
     document.getElementById("stopBtn").onclick = function() {
+		song.pause();
         document.getElementById("stopBtn").disabled = true;
         document.getElementById("startBtn").disabled = false;
         clearInterval(timerId);
