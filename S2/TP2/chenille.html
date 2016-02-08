@@ -19,23 +19,21 @@
     </head>
     <body onload="init()">
         <div id="wrapper">
-            <h1>Les chenilles</h1>
             <!-- le boutons pour lancer et interrompre l'animation -->
             <p> Déplace toi avec les touches flèche droite et flèche gauche pour tourner,
-            <br>tente de manger les pommes rouges !!!</p>
-            <div>
-                <button id="startBtn">Start</button>
-                <button id="stopBtn" disabled="">Stop</button>
+            tente de manger les pommes rouges !!!</p>
+            <div class="menue">
+                <p>
+					<button id="startBtn">Start</button>
+					score :
+					<b id="myScore"></b>
+					<button id="stopBtn" disabled="">Stop</button>
+				</p>
             </div>
             <!-- le canvas pour dessiner -->
             <canvas id="myCanvas" width="500" height="500">
                 la zone de dessin
             </canvas>
-            <div>
-			<!-- Score  -->
-				score :
-				<p id="myScore"></p>
-            </div>
         </div>
     
 </body></html>
