@@ -140,6 +140,10 @@ Chenille.prototype.ajoutNAnneau = function(N){
 		this.ajoutAnneau();	
 }
 
+Chenille.prototype.resetChenille = function(indice){
+	this.anneaux.splice(indice,this.nbrAnneaux);
+	this.nbrAnneaux = indice;
+}
 Chenille.prototype.coupeChenille = function(indice){
 	this.anneaux.splice(indice,this.nbrAnneaux);
 	this.nbrAnneaux = indice;
@@ -259,25 +263,26 @@ Pomme.prototype.dessiner = function(ctx){
 
 function init() {
 	/*musique*/
-	var song = new Audio('tequila.mp3');
+	//var song = new Audio('tequila.mp3');
 	plop = new Audio('plop.wav');
 	scream = new Audio('scream.wav');
-	song.volume = 0.1;	
+	//song.volume = 0.1;	
 	
 	/*image de fond*/
 	var img = new Image();   // Crée un nouvel objet Image
 	img.src = 'pelouse.jpg'; // Définit le chemin vers sa source
 	
 	/*parametre de jeu */
-	score = "0";
-	vie =3;
-	vitesse=65;
+	score = 0;
+	vie = 3;
+	vitesse= 65;
+	max = 0;
 	document.getElementById("myScore").innerHTML = score;
-	document.getElementById("myVie").innerHTML = vie;
+	document.getElementById("bestScore").innerHTML = max;
     canvas = document.getElementById("myCanvas");
     ctxt = canvas.getContext("2d");
-	
-	var nbrAnneaux = 1;
+
+	var nbrAnneaux = 2;
 	chenille = new Chenille(canvas,nbrAnneaux,10);
 	var pomme = new Pomme(10,canvas);
     pomme.dessiner(ctxt);
@@ -286,8 +291,7 @@ function init() {
 	
 	
     document.getElementById("startBtn").onclick = function() {
-		if(song.paused)
-			song.play();
+		document.getElementById("restartBtn").disabled = true;
         document.getElementById("stopBtn").disabled = false;
         document.getElementById("startBtn").disabled = true;
         timerId = setInterval(function() {
@@ -295,15 +299,19 @@ function init() {
 			ctxt.drawImage(img,0,0);
 			chenille.deplacer(canvas,pomme);
 			document.getElementById("myScore").innerHTML = score;
+			if(score > max){
+				max = score;
+				document.getElementById("bestScore").innerHTML = max;
+			}	
 			document.getElementById("Vie").innerHTML = vie;
 			if(vie<=0)
 			{
-				song.pause();
-				document.getElementById("stopBtn").disabled = true;
-				document.getElementById("startBtn").disabled = false;
+				document.getElementById("Vie").innerHTML = 0;
+				document.getElementById("myScore").innerHTML = 0;
+				document.getElementById("message").innerHTML = "Game over";
+				document.getElementById("message").style.color = "red";
+				document.getElementById("restartBtn").disabled = false;
 				clearInterval(timerId);
-				document.getElementById("myVie").innerHTML = "Game over";
-				document.getElementById("myVie").style.color = "red";
 			}
 			chenille.dessiner(ctxt);
 			pomme.dessiner(ctxt);
@@ -312,10 +320,23 @@ function init() {
         }, vitesse);
     };
     document.getElementById("stopBtn").onclick = function() {
-		song.pause();
         document.getElementById("stopBtn").disabled = true;
         document.getElementById("startBtn").disabled = false;
+        document.getElementById("restartBtn").disabled = false;
         clearInterval(timerId);
+    };
+    
+    document.getElementById("restartBtn").onclick = function() {
+		score = 0;
+		vie =3;
+		max = 0;
+		chenille.resetChenille(2);
+		document.getElementById("myScore").innerHTML = score;
+		document.getElementById("bestScore").innerHTML = max;
+		document.getElementById("Vie").innerHTML = vie;
+		document.getElementById("message").innerHTML ="";
+		document.getElementById("startBtn").disabled = false;
+        
     };
 
 }
