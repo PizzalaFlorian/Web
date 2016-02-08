@@ -143,6 +143,7 @@ Chenille.prototype.ajoutNAnneau = function(N){
 Chenille.prototype.coupeChenille = function(indice){
 	this.anneaux.splice(indice,this.nbrAnneaux);
 	this.nbrAnneaux = indice;
+	vie--;
 	scream.volume = 0.3;
 	scream.play();
 	//var sc = 0;
@@ -269,8 +270,10 @@ function init() {
 	
 	/*parametre de jeu */
 	score = "0";
+	vie =3;
 	vitesse=65;
 	document.getElementById("myScore").innerHTML = score;
+	document.getElementById("myVie").innerHTML = vie;
     canvas = document.getElementById("myCanvas");
     ctxt = canvas.getContext("2d");
 	
@@ -292,6 +295,16 @@ function init() {
 			ctxt.drawImage(img,0,0);
 			chenille.deplacer(canvas,pomme);
 			document.getElementById("myScore").innerHTML = score;
+			document.getElementById("Vie").innerHTML = vie;
+			if(vie<=0)
+			{
+				song.pause();
+				document.getElementById("stopBtn").disabled = true;
+				document.getElementById("startBtn").disabled = false;
+				clearInterval(timerId);
+				document.getElementById("myVie").innerHTML = "Game over";
+				document.getElementById("myVie").style.color = "red";
+			}
 			chenille.dessiner(ctxt);
 			pomme.dessiner(ctxt);
 			window.addEventListener('keyup', whatKey, true);
