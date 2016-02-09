@@ -68,6 +68,14 @@ Anneau.prototype.dessinerAlt = function(ctx){
 	}
 }
 
+Anneau.prototype.dessinerExplosion = function(ctxt){
+	var anneau = new Image();
+		anneau.src = 'fumee.png';
+		ctx.beginPath();
+		ctx.drawImage(anneau, this.x-this.r-5, this.y-this.r-5);
+	
+}
+
 Tete.prototype.dessiner = function(ctx){
 		var tete = new Image();
 		tete.src = 'tete.png';
@@ -156,6 +164,11 @@ Chenille.prototype.resetChenille = function(indice){
 	this.nbrAnneaux = indice;
 }
 Chenille.prototype.coupeChenille = function(indice){
+	setTimeout(function(){
+		for(var i=indice;i<this.nbrAnneaux;i++){
+			this.anneaux[i].dessinerExplosion(ctxt);
+		}	
+	},500)
 	this.anneaux.splice(indice,this.nbrAnneaux);
 	this.nbrAnneaux = indice;
 	vie--;
