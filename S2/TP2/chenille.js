@@ -39,29 +39,40 @@ Tete.prototype.placerT = function(px,py){
 * @returns {undefined}
 */
 Anneau.prototype.dessiner = function(ctx){
-	var anneau = new Image();
-	anneau.src = 'anneau.png';
-	ctx.beginPath();
-	ctx.drawImage(anneau, this.x-this.r-5, this.y-this.r-5);
-	/*ctx.beginPath();
-	ctx.arc(this.x,this.y,this.r,0,Math.PI*2,true);
-	ctx.strokeStyle = "black";
-	ctx.fillStyle = "bisque";
-    ctx.fill();
-	ctx.stroke();*/
+	if(etat=='Normal'){
+		var anneau = new Image();
+		anneau.src = 'anneau.png';
+		ctx.beginPath();
+		ctx.drawImage(anneau, this.x-this.r-5, this.y-this.r-5);
+	}
+	if(etat=='Poison'){
+		var anneau = new Image();
+		anneau.src = 'anneauP.png';
+		ctx.beginPath();
+		ctx.drawImage(anneau, this.x-this.r-5, this.y-this.r-5);	
+	}
+}
+
+Anneau.prototype.dessinerAlt = function(ctx){
+	if(etat=='Normal'){
+		var anneau = new Image();
+		anneau.src = 'anneau2.png';
+		ctx.beginPath();
+		ctx.drawImage(anneau, this.x-this.r-5, this.y-this.r-5);
+	}
+	if(etat=='Poison'){
+		var anneau = new Image();
+		anneau.src = 'anneauP2.png';
+		ctx.beginPath();
+		ctx.drawImage(anneau, this.x-this.r-5, this.y-this.r-5);	
+	}
 }
 
 Tete.prototype.dessiner = function(ctx){
-	var tete = new Image();
-	tete.src = 'tete.png';
-	ctx.beginPath();
-	ctx.drawImage(tete, this.x-this.r-5, this.y-this.r-5);
-	/*ctx.beginPath();
-	ctx.arc(this.x,this.y,this.r,0,Math.PI*2,true);
-	ctx.strokeStyle = "red";
-	ctx.fillStyle = "black";
-    ctx.fill();
-	ctx.stroke();*/
+		var tete = new Image();
+		tete.src = 'tete.png';
+		ctx.beginPath();
+		ctx.drawImage(tete, this.x-this.r-5, this.y-this.r-5);
 }
 /**
  * Deplacement
@@ -166,26 +177,43 @@ Chenille.prototype.peutcouper = function(){
 		if(Math.sqrt(
 		   Math.pow((this.tete.x - xA),2) 
 		   + Math.pow((this.tete.y - yA),2))
-		   <=(this.tete.r*2))
+		   <=(this.tete.r*2)){
 			this.coupeChenille(i);
+			break;
+		}
 	}
 }
 
 Chenille.prototype.dessiner = function(ctxt){
 	this.tete.dessiner(ctxt);
 	for(var i=0; i<this.nbrAnneaux;i++){
-		this.anneaux[i].dessiner(ctxt);
+		if(i%2==0)
+			this.anneaux[i].dessiner(ctxt);
+		else
+			this.anneaux[i].dessinerAlt(ctxt);
 	}
 }
 
 function whatKey(evt){
-	switch (evt.keyCode) {
-		case 37:
-		chenille.tete.devierCap(-45);
-		break;
-		case 39:
-		chenille.tete.devierCap(45);
-		break;
+	if(etat=='Normal'){
+		switch (evt.keyCode) {
+			case 37:
+			chenille.tete.devierCap(-45);
+			break;
+			case 39:
+			chenille.tete.devierCap(45);
+			break;
+		}
+	}
+	if(etat=='Poison'){
+		switch (evt.keyCode) {
+			case 37:
+			chenille.tete.devierCap(45);
+			break;
+			case 39:
+			chenille.tete.devierCap(-45);
+			break;
+		}
 	}
 }
 	
@@ -225,6 +253,7 @@ Chenille.prototype.peutmanger = function (pomme){
 
 Chenille.prototype.manger = function(pomme){
 	if(this.peutmanger(pomme)){
+		etat='Normal';
 		this.ajoutAnneau();
 		plop.play();
 		if(score>20)
@@ -234,13 +263,18 @@ Chenille.prototype.manger = function(pomme){
 		pomme.placerP();
 		score++;
 	}
+	if(this.peutmanger(pommePouris)){
+		etat='Poison';
+		pommePouris.placerP();
+	}
 }
 /***Pomme****/
 
-function Pomme(r,canvas){
+function Pomme(r,canvas,type){
 	this.x = Math.floor((Math.random() * 450-(2*r))) + (2*r)+25;
 	this.y = Math.floor((Math.random() * 450-(2*r))) + (2*r)+25;
 	this.r = r;
+	this.type = type;
 }
 
 Pomme.prototype.placerP = function(){
@@ -249,15 +283,19 @@ Pomme.prototype.placerP = function(){
 }
 
 Pomme.prototype.dessiner = function(ctx){
-	var pomme = new Image();
-	pomme.src = 'pomme.png';
-	ctx.beginPath();
-	ctx.drawImage(pomme, this.x-this.r-5, this.y-this.r-5);
-	/*ctx.arc(this.x,this.y,this.r,0,Math.PI*2,true);
-	ctx.strokeStyle = "black";
-	ctx.fillStyle = "red";
-    ctx.fill();
-	ctx.stroke();*/
+	if(this.type=='N'){
+		var pomme = new Image();
+		pomme.src = 'pomme.png';
+		ctx.beginPath();
+		ctx.drawImage(pomme, this.x-this.r-5, this.y-this.r-5);
+	}
+	else
+	{
+		var pomme = new Image();
+		pomme.src = 'pommeP.png';
+		ctx.beginPath();
+		ctx.drawImage(pomme, this.x-this.r-5, this.y-this.r-5);	
+	}
 }
 
 
@@ -273,6 +311,7 @@ function init() {
 	img.src = 'pelouse.jpg'; // Définit le chemin vers sa source
 	
 	/*parametre de jeu */
+	etat = 'Normal';
 	score = 0;
 	vie = 3;
 	vitesse= 65;
@@ -284,11 +323,15 @@ function init() {
 
 	var nbrAnneaux = 2;
 	chenille = new Chenille(canvas,nbrAnneaux,10);
-	var pomme = new Pomme(10,canvas);
-    pomme.dessiner(ctxt);
-    chenille.dessiner(ctxt);
+	pomme = new Pomme(10,canvas,'N');
+	pommePouris = new Pomme(10,canvas,'P');
+	img.onload = function(){
 	ctxt.drawImage(img,0,0);
+	pomme.dessiner(ctxt);
+	pommePouris.dessiner(ctxt);
 	
+    chenille.dessiner(ctxt);
+	}
 	
     document.getElementById("startBtn").onclick = function() {
 		document.getElementById("restartBtn").disabled = true;
@@ -315,10 +358,27 @@ function init() {
 			}
 			chenille.dessiner(ctxt);
 			pomme.dessiner(ctxt);
+			
+			pommePouris.dessiner(ctxt);
 			window.addEventListener('keyup', whatKey, true);
 			
         }, vitesse);
     };
+    
+    /*replacer pomme pourris*/
+    setInterval(function() {
+				pommePouris.placerP();
+				if(score>60)
+					pomme.placerP();
+			}, 10000);
+			
+	setInterval(function() {
+				if(score>40)
+					pommePouris.placerP();
+				if(score>80)
+					pomme.placerP();	
+			}, 5000);
+					
     document.getElementById("stopBtn").onclick = function() {
         document.getElementById("stopBtn").disabled = true;
         document.getElementById("startBtn").disabled = false;
