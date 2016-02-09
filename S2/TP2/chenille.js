@@ -163,6 +163,7 @@ Chenille.prototype.resetChenille = function(indice){
 	this.anneaux.splice(indice,this.nbrAnneaux);
 	this.nbrAnneaux = indice;
 }
+
 Chenille.prototype.coupeChenille = function(indice){
 	setTimeout(function(){
 		for(var i=indice;i<this.nbrAnneaux;i++){
