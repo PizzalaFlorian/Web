@@ -4,8 +4,8 @@
     session_start();
     $_SESSION['login'] = $_POST['login'];
   }
-  header('Location: '.$_SERVER['HTTP_REFERER']) ;
-  
+  //header('Location: '.$_SERVER['HTTP_REFERER']) ;
+  echo 'prout';
 /* Vérifie la combinaison nom/mot de passe et renvoie 
    true si elle est OK, false sinon
    Pour le moment on n'utilise pas de base de données.
