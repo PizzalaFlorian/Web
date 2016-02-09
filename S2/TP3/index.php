@@ -1,3 +1,11 @@
+<?PHP
+session_start();
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -13,8 +21,8 @@
     </header>
     <nav>
       <ul>
-      	<li><a href="index.html">Accueil</a></li>
-      	<li><a href="lesequipes.html" >Les équipes</a></li>
+      	<li><a href="index.php">Accueil</a></li>
+      	<li><a href="equipe.php" >Les équipes</a></li>
       	<li><a href="terrains.html" >Terrains</a></li>
         <li>	
           &nbsp;&nbsp;&nbsp;&nbsp;
