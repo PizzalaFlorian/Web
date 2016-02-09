@@ -7,6 +7,26 @@
 	
 	session_start();
 	
+	function afficher_menue_log(){
+		if(!isset($_SESSION['isLog'])){
+			echo'
+			  <form action="connexion.php" method="post">
+						Identifiant : <input type="text" size="16" name="login" />
+						Mot de passe : <input type="password" size="16" name="passwd" />
+					   <input type="submit" value="Se connecter" />
+					  </form>				
+					</li>
+			 </ul>';
+		}
+		else{
+			echo'
+			  <form action="logOut.php" method="post">
+					   <input type="submit" value="Se deconnecter" />
+					  </form>				
+					</li>
+			 </ul>';
+		}
+	}
 	
 	function affiche_equipe($flag){
 		$data=null;
@@ -62,19 +82,9 @@
   	  <h2>Equipe <?php if(isset($_GET['equipe']))echo $_GET['equipe']; ?></h2>
     </header>
     <nav>
-      <ul>
-        <li><a href="index.php">Accueil</a></li>
-        <li><a href="equipe.php" >Les équipes</a></li>
-        <li><a href="terrains.html" >Terrains</a></li>
-        <li>	
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <form action="connexion.php" method="post">
-            Identifiant : <input type="text" size="16" name="login" />
-            Mot de passe : <input type="password" size="16" name="passwd" />
-            <input type="submit" value="Se connecter" />
-          </form>				
-        </li>
-      </ul>
+      <?PHP require'navbar.php';
+		afficher_menue_log();
+      ?>
     </nav> 
     <section>
 <!--
